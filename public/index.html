@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>เกมออฟฟิศ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' fill='%23111'/%3E%3Crect x='1' y='1' width='6' height='6' fill='%23e5382f'/%3E%3Crect x='3' y='2' width='2' height='4' fill='%23fff'/%3E%3Crect x='2' y='3' width='1' height='2' fill='%23f9d423'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="side-L">
+<div id="crt"></div>
+<div id="banner" hidden></div>
+
+<main id="stage">
+
+  <!-- ======== เมนูหลัก: เกมออฟฟิศ ======== -->
+  <section id="s-start" class="screen">
+    <h1 class="logo th">เกม<span>ออฟฟิศ</span></h1>
+    <p class="sub">รวมเกมเล่นกับเพื่อนร่วมงานในที่ทำงาน</p>
+    <div class="panel">
+      <div class="avedit">
+        <div id="avPrev" class="av big"></div>
+        <div id="avCtl" class="avctl"></div>
+      </div>
+      <div class="row" style="margin-top:6px"><button id="avRand" type="button" class="pbtn sm">สุ่มหน้าตา</button></div>
+      <label for="inName0" style="margin-top:14px">ใส่ชื่อของคุณ</label>
+      <input id="inName0" maxlength="40" placeholder="เช่น ฟ้า (บัญชี)" autocomplete="off">
+      <div class="row" style="margin-top:8px"><button id="lgTh" type="button" class="pbtn sm" data-nt>ไทย</button><button id="lgEn" type="button" class="pbtn sm" data-nt>English</button></div>
+      <div class="row" style="margin-top:8px"><button id="btnAnim" type="button" class="pbtn sm">การเคลื่อนไหว: ปิด</button></div>
+      <div class="row"><button id="btnStart0" class="pbtn big yellow">▶ เริ่มต้น</button></div>
+    </div>
+    <p class="hint" style="text-align:center">แชทด้านล่างคุยกับทุกคนที่ออนไลน์ได้เลย</p>
+  </section>
+
+  <!-- ======== เลือกเกม ======== -->
+  <section id="s-pick" class="screen">
+    <h1 class="logo th small">เลือกเกม</h1>
+    <p class="sub">สวัสดี <b id="helloName"></b> <small id="pickOnline"></small></p>
+    <div id="gameList"></div>
+    <div class="row" style="justify-content:center"><button id="btnChangeName" class="pbtn sm">← เปลี่ยนชื่อ</button></div>
+  </section>
+
+  <!-- ======== หน้าแรกของ UNO ======== -->
+  <section id="s-home" class="screen">
+    <div class="row" style="margin:0 0 6px"><button id="btnMenu" class="pbtn sm">← เมนูเกม</button></div>
+    <h1 class="logo" id="homeLogo">UNO</h1>
+
+    <input id="inName" type="hidden">
+    <div class="panel">
+      <h2>สร้างห้อง</h2>
+      <div class="row">
+        <input id="inPw" maxlength="12" placeholder="รหัสผ่านห้อง (ไม่ใส่ก็ได้)" autocomplete="off">
+        <button id="btnCreate" class="pbtn green">+ สร้างห้องใหม่</button>
+      </div>
+    </div>
+    </div>
+
+    <div class="panel">
+      <h2>ห้องที่เปิดอยู่ตอนนี้ <small id="onlineN"></small></h2>
+      <div id="roomList"></div>
+    </div>
+  </section>
+
+  <!-- ======== ห้องรอ ======== -->
+  <section id="s-room" class="screen">
+    <div class="panel">
+      <div class="roomhead">
+        <div><small>รหัสห้อง</small><div id="rCode" class="code">----</div></div>
+        <button id="btnCopy" class="pbtn">คัดลอกลิงก์ชวนเพื่อน</button>
+      </div>
+    </div>
+    <div class="roomgrid">
+      <div class="panel">
+        <h2>ผู้เล่น <small id="rCount"></small></h2>
+        <div id="rPlayers"></div>
+      </div>
+      <div class="panel">
+        <h2>ตั้งค่าห้อง</h2>
+        <div id="rOpts"></div>
+        <div id="rHostCtl" class="hostctl">
+          <button id="btnBot" class="pbtn">เพิ่มบอท</button>
+        </div>
+        <div class="row">
+          <button id="btnStart" class="pbtn big yellow">▶ เริ่มเกม</button>
+          <button id="btnLeave1" class="pbtn red">ออกจากห้อง</button>
+        </div>
+        <p id="rWait" class="hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== โต๊ะเล่น Coup ======== -->
+  <section id="s-coup" class="screen">
+    <div id="cp">
+      <header id="cptop">
+        <span id="cpCode" class="tag"></span>
+        <span id="cpDir" class="tag dir"></span>
+        <span class="sp"></span>
+        <button id="btnPause2" class="pbtn sm" title="หยุดเกมชั่วคราว">หยุด</button>
+        <button id="btnSnd2" class="pbtn sm" title="เปิด/ปิดเสียง">เสียง</button>
+        <button id="btnLeave3" class="pbtn sm red" title="ออกจากห้อง">ออก</button>
+      </header>
+      <div class="cptimer"><i id="cpBar"></i></div>
+      <div id="cpTable">
+      <div id="cpOpps"></div>
+      <div id="cpMid">
+        <div id="cpDeck"></div>
+      </div>
+      <div id="cpMe"></div>
+      </div>
+      <div id="cpActs"></div>
+      <div id="cpEnd" hidden></div>
+      <div id="cpPause" hidden><div class="pbx"><h2>หยุดเกมชั่วคราว</h2><p id="cpPauseTxt"></p><button id="btnResume2" class="pbtn green">เล่นต่อ</button></div></div>
+    </div>
+  </section>
+
+  <!-- ======== เกมหมาป่า ======== -->
+  <section id="s-ww" class="screen">
+    <div id="ww" class="day">
+      <header id="wwtop">
+        <span id="wwCode" class="tag"></span>
+        <span id="wwTag" class="tag dir"></span>
+        <span class="sp"></span>
+        <button id="btnPause4" class="pbtn sm" title="หยุดเกมชั่วคราว">หยุด</button>
+        <button id="btnSnd4" class="pbtn sm" title="เปิด/ปิดเสียง">เสียง</button>
+        <button id="btnLeave5" class="pbtn sm red" title="ออกจากห้อง">ออก</button>
+      </header>
+      <div id="wwSleep"><span>กลางคืน</span></div>
+      <div id="wwSky"><i class="sun"></i><i class="moon"></i><div id="wwMsg"></div></div>
+      <div class="wwtimer"><i id="wwBar"></i></div>
+      <div id="wwBody">
+        <div id="wwPlayers"></div>
+        <div id="wwSide"><div id="wwMe"></div><div id="wwAct"></div><div id="wwLog"></div></div>
+      </div>
+      <div id="wwFx" hidden></div>
+      <div id="wwDeath" hidden></div>
+      <div id="wwPause" hidden><div class="pbx"><h2>หยุดเกมชั่วคราว</h2><p id="wwPauseTxt"></p><button id="btnResume4" class="pbtn green">เล่นต่อ</button></div></div>
+      <div id="wwEnd" hidden></div>
+    </div>
+  </section>
+
+  <!-- ======== สนาม HAXBALL ======== -->
+  <section id="s-hax" class="screen">
+    <div id="hx">
+      <header id="hxtop">
+        <span id="hxCode" class="tag"></span>
+        <span class="sp"></span>
+        <button id="btnPause3" class="pbtn sm" title="หยุดเกมชั่วคราว">หยุด</button>
+        <button id="btnSnd3" class="pbtn sm" title="เปิด/ปิดเสียง">เสียง</button>
+        <button id="btnLeave4" class="pbtn sm red" title="ออกจากห้อง">ออก</button>
+      </header>
+      <div id="hxBoard"><b id="hxR" class="sr">0</b><span id="hxTime">0:00</span><b id="hxB" class="sb">0</b></div>
+      <div id="hxWrap"><canvas id="hxCv"></canvas><div id="hxBanner" hidden></div>
+        <div id="hxTouch"><div id="hxJoy"><i></i></div><button id="hxKick" type="button">เตะ</button></div>
+      </div>
+      <div id="hxPause" hidden><div class="pbx"><h2>หยุดเกมชั่วคราว</h2><p id="hxPauseTxt"></p><button id="btnResume3" class="pbtn green">เล่นต่อ</button></div></div>
+      <div id="hxEnd" hidden></div>
+    </div>
+  </section>
+
+  <!-- ======== โต๊ะเล่น UNO ======== -->
+  <section id="s-game" class="screen">
+    <div id="g">
+      <header id="gtop">
+        <span id="gCode" class="tag"></span>
+        <span id="gSide" class="tag side"></span>
+        <span id="gDir" class="tag dir"></span>
+        <span id="gColor" class="tag"></span>
+        <span class="sp"></span>
+        <button id="btnPause" class="pbtn sm" title="หยุดเกมชั่วคราว">หยุด</button>
+        <button id="btnSnd" class="pbtn sm" title="เปิด/ปิดเสียง"></button>
+        <button id="btnLeave2" class="pbtn sm red" title="ออกจากห้อง">ออก</button>
+      </header>
+      <div id="pauseBox" hidden><div class="pbx"><h2>หยุดเกมชั่วคราว</h2><p id="pauseTxt"></p><button id="btnResume" class="pbtn green">เล่นต่อ</button></div></div>
+      <div id="timer"><i id="timerBar"></i></div>
+      <div id="opps"></div>
+      <div id="center">
+        <div id="piles">
+          <div id="drawPile" class="pile" title="กองจั่ว (กดเพื่อจั่ว)"></div>
+          <div id="discPile" class="pile"></div>
+        </div>
+        <div id="msgline"></div>
+        <div id="chalBox" hidden></div>
+      </div>
+      <div id="mebar">
+        <span id="meName"></span>
+        <span class="acts">
+          <button id="btnSort" class="pbtn sm" title="สลับเรียงตามเลข / ตามสี">เรียงสี</button>
+          <button id="btnUno" class="pbtn yellow">UNO!</button>
+          <button id="btnCatch" class="pbtn red" hidden>จับ UNO!</button>
+          <button id="btnDraw" class="pbtn blue">จั่ว</button>
+          <button id="btnPass" class="pbtn">ผ่าน</button>
+        </span>
+      </div>
+      <div id="hand"></div>
+      <div id="endBox" hidden></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======== แชทด้านล่าง เห็นทุกคน ======== -->
+<footer id="chat">
+  <div id="chatGrip" title="ลากขึ้น/ลงเพื่อปรับความสูงแชท"><i></i></div>
+  <div id="chatHead">
+    <b id="chatTitle">แชทลอบบี้</b>
+    <span class="quick">
+      <button type="button" data-q="👍">👍</button><button type="button" data-q="😂">😂</button><button type="button" data-q="😱">😱</button><button type="button" data-q="GG">GG</button><button type="button" data-q="⏰ เร็วๆ หน่อย">⏰</button>
+    </span>
+    <button id="chatToggle" class="pbtn sm" title="ย่อ/ขยายแชท">▼</button>
+  </div>
+  <div id="chatLog"></div>
+  <form id="chatForm" autocomplete="off">
+    <input id="chatIn" maxlength="200" placeholder="พิมพ์คุยกันได้เลย แล้วกด Enter…">
+    <button class="pbtn sm green" type="submit">ส่ง</button>
+  </form>
+</footer>
+
+<div id="modal" hidden></div>
+<div id="toast"></div>
+<div id="fx"></div>
+
+<script src="i18n.js"></script>
+<script src="cards.js"></script>
+<script src="sound.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
